@@ -14,6 +14,9 @@ class Task:
     period: int
     execution_time: int
 
+    def __str__(self):
+        return f"{self.id} ({self.execution_time}, {self.period})"
+
     @property
     def priority(self) -> int:
         """Rate Monotonic priority: Shorter period = Higher priority (lower value)."""
@@ -308,7 +311,7 @@ if __name__ == "__main__":
     for t in tasks:
         cpu0.add_task(t)
     
-    print(f"Processor 0 Tasks: {[t.id for t in cpu0.assigned_tasks]}")
+    print(f"Processor 0 Tasks: {[str(t) for t in cpu0.assigned_tasks]}")
     print(f"Total Utilization: {cpu0.utilization:.2f} (Overload expected if > 1.0 or > LL bound)")
 
     run_simulation([cpu0], hyperperiod)
@@ -325,7 +328,7 @@ if __name__ == "__main__":
     processors_ff = partition_tasks_ff_rm(tasks)
     
     for proc in processors_ff:
-        t_ids = [t.id for t in proc.assigned_tasks]
+        t_ids = [str(t) for t in proc.assigned_tasks]
         print(f"Processor {proc.id}: {t_ids} (Utilization: {proc.utilization:.2f})")
     
     print(f"Hyperperiod: {hyperperiod}")
